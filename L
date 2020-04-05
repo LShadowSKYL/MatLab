@@ -1,0 +1,42 @@
+%% Laboratorijas Darbs 5.
+%% Raitis Tumovs REBM02
+
+% Pirmaa funkcija
+function Laboratorijas_Darbs_5
+global E R i0 a
+Ud = 2;
+id = 12;
+% a = solve(id==io*(exp(a-Ud)-1),a) apreikina a
+R=1; i0 =1.5e-08; a=2;
+t= 0:0.01:5.5;
+% Et = Laboratorijas_Darbs_3(t) atrodas uz nulles, taapeec to reizinam ar
+% konstanti, (2; 5; 10 vai 100)
+Et = 10*Laboratorijas_Darbs_3(t);
+
+URm = [];
+for E = Et
+    UR = newmet5;
+    URm = [URm,UR];
+end
+plot(t,Et,t,URm)
+legend('Et','UR')
+
+% Otraa funkcija
+function x0 = newmet5
+epsilon = 1e-3;
+x0 = 0;
+delta = funx(x0)/fund(x0);
+while(abs(delta)>epsilon)
+delta = funx(x0)/fund(x0);
+x0 = x0-delta;
+end
+
+% Treshaa funkcija
+function fx = funx(UR)
+global E R i0 a
+fx = i0*(exp(a*(E-UR))-1)-UR/R;
+
+% Ceturtaa funkcija
+function fx = fund(UR)
+global E R i0 a
+fx = - 1/R - a*i0*exp(a*(E - UR));
