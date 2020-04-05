@@ -1,0 +1,38 @@
+function y = Laboratorijas_Darbs_3(t)
+if nargin == 0
+ t = 0:0.01:5.5;
+end
+%t_zero = 0:0.01:1;
+t_zerof = (t>=0)&(t<1); t_zero = t(t_zerof);
+%t_cos= 1:0.01:1.5;
+t_cosf = (t>=1)&(t<1.5); t_cos = t(t_cosf);
+%t_noise = 1.5:0.01:3;
+t_noise = (t>=1.5)&(t<=3); t_noise = t(t_noise);
+%t_const = 3:0.01:3.5;
+t_constf = (t>=3)&(t<3.5); t_const = t(t_constf);
+%t_saw = 3.5:0.01:5.5;
+t_sawf = (t>=3.5)&(t<5.5); t_saw = t(t_sawf);
+%% kosinoīda
+A0 = 0;
+A = 3;
+T = (0.35-1);
+f = 1/T;
+delay = 0.75;
+y_cos = A0 + A*cos(2*pi*f*(t_cos-delay));
+%% Lineārmainīgā funkcija
+k = (2.77-0)/(0+5.5);
+delay = 3.5;
+y_saw = k*(t_saw-delay);
+%% Konstantes signāls
+y_const = zeros(size(t_const))-3;
+%% Nuļļu signāls
+y_zero = zeros(size(t_zero));
+%% Trokšņa signals
+y_noise = 3*rand(size(t_noise))-1.5;
+%% apvien vissu
+t = [t_zero,t_cos,t_noise,t_const,t_saw];
+y = [y_zero,y_cos,y_noise,y_const,y_saw];
+if nargout == 0
+ plot(t,y);
+ y = [];
+end
